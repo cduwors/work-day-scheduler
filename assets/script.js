@@ -8,8 +8,9 @@ const now = DateTime.now();
 
 function displayDay() {
 	var currentDayEL = document.getElementById("currentDay");
-	currentDayEL.textContent = DateTime.now().toLocaleString();
-	// dt.toLocaleString(DateTime.DATETIME_MED);
+	var newFormat = { ...DateTime.DATE_SHORT, weekday: "long", month: "long" };
+	currentDayEL.textContent = now.toLocaleString(newFormat);
+	console.log(now.toLocaleString(newFormat));
 	console.log("in day function");
 }
 displayDay();
@@ -32,3 +33,29 @@ var handleTaskInput = function (event) {
 
 //listener for submit timeblock information and save to localStorage
 submitTask.on("click", handleTaskInput);
+
+function checkTime() {
+	var rowHour = $(".hour");
+	var rowTask = $(this).closest(".row").find("taskInputEl");
+	console.log(rowHour[0].setAttribute("class", "present"));
+	for (let i = 0; i < rowHour.length; i++) {
+		if (now.hour === rowHour[i].textContent) {
+			rowTask.addClass(".present");
+		} else if (now.hour < rowHour[i].textContent) {
+			rowTask.addClass(".past");
+		} else {
+			rowTask.addClass(".future");
+		}
+		console.log("in checkTime function");
+		console.log(rowHour[i].length);
+	}
+}
+
+checkTime();
+// Hard code all the times in HTML 9-5pm
+// You are going ot do a condtiiton that says
+// If this time block is less than the current time then it will be gray
+//else if the timeblocks is the same time as current time, then it will be red,
+//else it will be green
+
+//auto-update time to keep color coding current
