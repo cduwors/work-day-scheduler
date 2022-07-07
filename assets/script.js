@@ -20,7 +20,7 @@ displayDay();
 //function for input of timeblock
 var handleTaskInput = function (event) {
 	var taskInput = taskInputEl.val();
-	var inputTag = $(this).closest(".row").find("input");
+	var inputTag = $(this).closest(".row").find("textarea");
 	var inputValue = inputTag.val();
 	var inputValRow = inputTag[0].id;
 	localStorage.setItem(inputValRow, inputValue);
@@ -35,27 +35,33 @@ var handleTaskInput = function (event) {
 submitTask.on("click", handleTaskInput);
 
 function checkTime() {
-	var rowHour = $(".hour");
-	var rowTask = $(this).closest(".row").find("taskInputEl");
-	console.log(rowHour[0].setAttribute("class", "present"));
-	for (let i = 0; i < rowHour.length; i++) {
-		if (now.hour === rowHour[i].textContent) {
-			rowTask.addClass(".present");
-		} else if (now.hour < rowHour[i].textContent) {
-			rowTask.addClass(".past");
+	//row times are hard coded into the html then compared using luxon
+
+	var rowTask = $(".description");
+	// var hour = 12;
+
+	// for loop to check each hour for color coding
+	for (let i = 0; i < rowTask.length; i++) {
+		// If this time block equals the current time then it will be red
+		console.log(rowTask[i]);
+
+		if (now.hour === parseInt(rowTask[i].dataset.hour)) {
+			rowTask[i].classList.add("present");
+
+			// If this time block is less than the current time then it will be gray
+		} else if (now.hour > parseInt(rowTask[i].dataset.hour)) {
+			rowTask[i].classList.add("past");
+			// else it is after current time and will be green
 		} else {
-			rowTask.addClass(".future");
+			rowTask[i].classList.add("future");
 		}
-		console.log("in checkTime function");
-		console.log(rowHour[i].length);
+// I've checked this function and it is returning the now.hour correctly
 	}
 }
 
 checkTime();
-// Hard code all the times in HTML 9-5pm
-// You are going ot do a condtiiton that says
-// If this time block is less than the current time then it will be gray
-//else if the timeblocks is the same time as current time, then it will be red,
-//else it will be green
 
-//auto-update time to keep color coding current
+//audit times every 30 min to keep color coding current
+setInterval(function () {
+	checkTime();
+}, 1800000);
