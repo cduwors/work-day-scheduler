@@ -8,6 +8,8 @@ A simple daily scheduler to plan workday appointments and tasks. Input is stored
 
 - Difficulty getting the dates to sort to past present and future. Used Luxon instead of moment.js because of obsolescence issues. Needed to create 24 hr clock class in order to create a working comparable in the loop.
 
+-My tasks don't persist. I will need to work on that more.
+
 ## Screenshot
 
 <img src= "./Workday-Sched.png"/>
